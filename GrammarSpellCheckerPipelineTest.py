@@ -1,4 +1,5 @@
 from GrammarChecker.GrammarChecker import GrammarChecker as gc
+from GrammarChecker.RAGGrammarCorrect import GrammarCorrector as corrector
 from SpellChecker.SpellCheckerByLevenshteinEditDistance import SpellCheck as sc
 
 
@@ -17,22 +18,12 @@ class GrammarSpellChecker:
 
 if __name__ == "__main__":
     paragraphs = [
-        "මම ඊයේ උද්‍යානයට ගියා, ළමයි ටිකක් පැසිපන්දු ක්‍රීඩා කරනවා දැක්කා. මමයි මලලියි එයාලට සෙල්මකට එකකතු වුණා. අපි "
-        "එහෙමට මෙහෙට දුවලා හිනාවෙලා හරිම විනෝදයෙන් හිටියා. පසුවබ ඔවුන්ගෙන් එක් අබයෙක් අපට ඔවුන්ගේ නිවසට කෙටි ආහාර සඳහා "
-        "ආරාධනා කළේය. එදා අලුත් යාලුඑමවො ගැන මට ලොකු සතුටක් දැනුනා.",
-        "පවුලේ අය සමඟ කාලය ගත කිරීම කොතරම් වැදගත්ද යන්න අපට බොහෝ විරට අමතක වේ. මමයි නංගිබයි තීරණය කළා ඊයේ රෑ හැමෝටම රෑට "
-        "කෑම හදන්න. ඇය සෝස් සූදානම් කරන අතරතුර මම එළවළු කපා දැමුවෙමි. අපේ දෙමව්පියෝ අපිත් එක්ක කෑම මේසෙටර ගියාම එයාලා "
-        "අපිට ප්‍රශංසා කළා උත්සාහය ගැන. ඒක අපිව ළං කළා.",
-        "මට අද මගේ අට්ටාලයේ පැරිණි සඟරාවක් හමු විය. එය මගේ ආච්චිට අයත් වූ අතර ඇගේ වචන කියවීම කාලය හරහා ගමන් කිරීමක් "
-        "වැනිය. ඇය තම පවුලට ආදරය කළ ආකාරැය ගැන ලිවීය. මම සරහ මගේ ඥාති සහෝදරියන් ඇයගේ ගෞරවය පිණිස සීරීම් පොතවක් සෑදීමට "
-        "තීරණය කළා. ඇගේ උරුමය රැකගැනීම ගැන අපට ආඩම්රයක් දැනුණා.",
-        "වෙරළ තීරය ජනාකීර්ණ වූ නමුත් විශාල ගස්ක සෙවන යට නිස්කලංක ස්ථානයක් සොයා ගැනීමට අපට හැකි විය. මමයි මගේ යාළුවොයි "
-        "වැලි මාලිගා හදලා සාගරයේ පීනා ගියා. මම සිහිවටනන ලෙස මුහුදු කටු පවා එකතු කළා. හොඳම දේ තමයි ආගන්තුකයෙක් අපිට "
-        "අයිස්ක්‍රීම් පිරිනැමීම. එය මගේ දවස විය!",
-        "මම මගේ නිදහස් කාලය තුළ පින්තාරු කිරීමට කැමතියි. මමයි මගේ මිතුරායි අපේ අසල්වැසි ප්‍රදේශයේ කුඩා කලා සමාජයක් "
-        "ආරම්භ කළා. අපි සෑම සති අන්තයකම අදහස් හුවමාරු කරර ගැනීමට සහ ව්‍යාපෘතිවල වැඩ කිරීමට හමුවෙමු. පසුගිය සතියේ මම "
-        "හිරු බැස යෑමක් පින්තාරු කටළ අතර, හැමෝම එයට කැමති විය. අපගේ කලාකරුවන් වර්ණ සහ හැඩයතල තුළින් අපගේ අදහස් ප්‍රකාශ "
-        "කිරීමන් සතුටක් ලබන්නෙමු."
+        "මම අද රෑ කෑබට සිල්ලර බඩු ටිකක් ගන්න කඩේට ගියා.",
+        "මම විරද්‍යාව හා තාක්ෂකය ගැන පොත් කියවන්න කැමතියි.",
+        "අපි ඊයේ වෙරළ තීරයේ හිරු බැස් යෑම නැරඹීමෙන් සතුටක් ලැබුවා.",
+        "අපි ගෙවත්තේ අලුත් මල් සිටුවා එය දීප්තිමමත් කරන්න.",
+        "අපි එකට ෆිල්ම් එකක් බලාලා හොඳට විනෝද වුණා.",
+        "මම අවසාන විභාගරයට සූදානම් වෙන්නන පැය ගගණන් පාඩකම් කළා."
     ]
 
     # Initialize spelling and grammar checker
@@ -50,12 +41,16 @@ if __name__ == "__main__":
             grammar_errors.append((idx, error_indices))
 
     # Print results
-    print("Corrected Paragraphs:")
+    print("Spelling Corrected Paragraphs:")
     for i, corrected in enumerate(corrected_paragraphs):
-        print(f"Paragraph {i + 1}:\n{corrected}")
+        print(f"Paragraph {i + 1} \n\t Original: \t{paragraphs[i]}")
+        print(f"  \tCorrected: \t{corrected}")
 
+    crctr = corrector()
     print("Grammar Errors:")
     for idx, error_indices in grammar_errors:
         print(f"Paragraph {idx + 1} has grammatical errors at indices: {error_indices}")
         for start, end in error_indices:
             print(f"  Error range: [{start}:{end}] => {corrected_paragraphs[idx][start:end]}")
+            print(f"  Corrected phrase : {crctr.correct_grammar(corrected_paragraphs[idx][start:end])}")
+

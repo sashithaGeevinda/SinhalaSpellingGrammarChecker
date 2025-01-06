@@ -129,7 +129,7 @@ class SpellCheck:
                 score = self.athulya_heuristic(string_words[i].lower(), name.lower())
 
                 # if the score is greater than the current best_score, update the best match
-                if score >= 75 and score > best_score:
+                if score >= 50 and score > best_score:  # Lowered threshold for better flexibility
                     best_match = name
                     best_score = score
 
@@ -143,14 +143,15 @@ class SpellCheck:
     # this method returns the corrected string of the given input
     def correct(self):
         # Use regex to split into words, punctuation, and whitespace, accounting for Unicode characters
-        tokens = re.findall(r'\w+|[^\w\s]|\s+', self.string_to_check, re.UNICODE)
+        # Updated regex to account for Sinhala characters as well
+        tokens = re.findall(r'[\w\'\u0D80-\u0DFF]+|[^\w\s]|\s+', self.string_to_check, re.UNICODE)
 
         # List to hold corrected tokens
         corrected_tokens = []
 
         for token in tqdm(tokens, "Correcting words: "):
             # Check if the token is a word (not punctuation or whitespace)
-            if re.match(r'\w+', token, re.UNICODE):  # Match Unicode words
+            if re.match(r'[\w\'\u0D80-\u0DFF]+', token, re.UNICODE):  # Match Sinhala and other Unicode words
                 best_match = None
                 best_score = 0
 
@@ -160,7 +161,7 @@ class SpellCheck:
                     score = self.athulya_heuristic(token.lower(), name.lower())
 
                     # If the score is greater than the current best_score and above the threshold
-                    if score >= 75 and score > best_score:
+                    if score >= 70 and score > best_score:  # Lowered threshold for better flexibility
                         best_match = name
                         best_score = score
 
