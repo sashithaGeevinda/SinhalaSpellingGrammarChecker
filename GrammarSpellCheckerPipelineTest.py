@@ -1,5 +1,5 @@
 from GrammarChecker.GrammarChecker import GrammarChecker as gc
-from SpellChecker.spellchecker_heuristic import SpellCheck as sc
+from SpellChecker.SpellCheckerByLevenshteinEditDistance import SpellCheck as sc
 
 
 class GrammarSpellChecker:
